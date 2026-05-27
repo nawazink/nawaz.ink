@@ -1,7 +1,7 @@
 import { state, saveState } from './state.js';
 
 export const SUPABASE_URL = 'https://ebbzrctuxheedazybjwy.supabase.co';
-export const SUPABASE_ANON_KEY = 'sb_publishable_MiOKWXteifsXEc4yHhgT2w_AFFMRae1';
+export const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImViYnpyY3R1eGhlZWRhenliand5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4NDQ5NTMsImV4cCI6MjA5MjQyMDk1M30.ME7_bz3WZlFP2gYvQYPpURZBU3koKN-ZjtPQcyjkx_w';
 
 export const SUPABASE_EMAIL = 'nawaz.documation@gmail.com';
 
@@ -92,7 +92,10 @@ export async function restoreFromCloud() {
 export function startAutoSync() {
   if (autoSyncTimer) clearTimeout(autoSyncTimer);
   autoSyncTimer = setTimeout(() => {
-    if (state.settings.cloudEnabled === '1') syncNow();
+    if (state.settings.cloudEnabled === '1') {
+      syncNow();
+    }
+    startAutoSync(); // Re-arm for next cycle
   }, 30000);
 }
 
