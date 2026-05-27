@@ -89,6 +89,12 @@ function setupAuth() {
 
 function setupKeyboardShortcuts() {
   document.addEventListener('keydown', (e) => {
+    // Global Ctrl+S save
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+      import('./editor.js').then(m => { m.saveCurrentPage(); });
+    }
+
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); openSearchOverlay(); return; }
     if (e.key === 'Escape') { closeSearchOverlay(); const m = document.querySelector('.modal-overlay'); if (m) m.remove(); return; }
     if (e.altKey) {

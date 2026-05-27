@@ -812,6 +812,8 @@ export function saveCurrentPage() {
   page.title = currentPageObj.title;
   page.snapshots = currentPageObj.snapshots;
   saveState();
+  // Update sidebar page tree
+  import('./sidebar.js').then(m => m.buildPageTree());
 }
 
 // --- WRITING PULSE ---
