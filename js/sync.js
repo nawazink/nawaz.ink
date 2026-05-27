@@ -126,7 +126,13 @@ export async function autoSignIn(password) {
     }
     console.log('[sync] Sign-in successful');
     updateSyncStatus('Connected');
-    syncNow();
+    // Auto-restore if local state is empty (fresh browser)
+    if (state.pages.length === 0 && state.tasks.length === 0) {
+      console.log('[sync] Local state empty, restoring from cloud...');
+      await restoreFromCloud();
+    } else {
+      syncNow();
+    }
     return true;
   } catch (e) {
     console.error('[sync] Sign-in exception:', e);

@@ -82,12 +82,21 @@ export const state = {
 let dirty = false;
 let saveTimer = null;
 
+let cloudSyncTimer = null;
+
 export function markDirty() {
   dirty = true;
   if (saveTimer) clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
     saveState();
   }, 800);
+  // Debounced cloud sync (5s after last change)
+  if (cloudSyncTimer) clearTimeout(cloudSyncTimer);
+  cloudSyncTimer = setTimeout(() => {
+    import('./sync.js').then(m => {
+      if (state.settings.cloudEnabled === '1') m.syncNow();
+    });
+  }, 5000);
 }
 
 function openDB() {
