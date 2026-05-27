@@ -9,17 +9,19 @@ let supabase = null;
 let autoSyncTimer = null;
 
 function getClient() {
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return null;
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) { console.error('[sync] No URL or key'); return null; }
   if (supabase) return supabase;
 
-  // Supabase v2 UMD may expose as window.supabase or window.Supabase
   const lib = window.supabase || window.Supabase;
+  console.log('[sync] window.supabase:', typeof window.supabase, 'window.Supabase:', typeof window.Supabase);
+  
   if (lib && lib.createClient) {
     supabase = lib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('[sync] Client created successfully');
     return supabase;
   }
 
-  console.warn('[sync] Supabase library not loaded. window.supabase:', typeof window.supabase);
+  console.error('[sync] Supabase library NOT loaded');
   return null;
 }
 
@@ -55,16 +57,21 @@ export async function cloudSignOut() {
 
 export async function syncNow() {
   const client = getClient();
-  if (!client) return;
+  if (!client) { console.error('[sync] syncNow: no client'); return; }
   try {
-    const { data: { user } } = await client.auth.getUser();
-    if (!user) { updateSyncStatus('Not signed in'); return; }
+    const { data: { user }, error: userErr } = await client.auth.getUser();
+    if (userErr) { console.error('[sync] getUser error:', userErr.message); updateSyncStatus('Not signed in'); return; }
+    if (!user) { console.error('[sync] No user session'); updateSyncStatus('Not signed in'); return; }
+    console.log('[sync] Syncing for user:', user.id);
     const payload = JSON.stringify(state);
-    await client.from('user_state').upsert({ user_id: user.id, data: payload, updated_at: new Date().toISOString() });
+    const { error } = await client.from('user_state').upsert({ user_id: user.id, data: payload, updated_at: new Date().toISOString() });
+    if (error) { console.error('[sync] Upsert error:', error.message); updateSyncStatus('Sync failed: ' + error.message); return; }
     state.cloud.lastSyncedAt = Date.now();
     updateSyncStatus('Synced');
     saveState();
+    console.log('[sync] Synced successfully');
   } catch (e) {
+    console.error('[sync] syncNow exception:', e);
     state.cloud.lastError = e.message;
     updateSyncStatus('Sync failed');
     saveState();
@@ -101,25 +108,28 @@ export function startAutoSync() {
 
 export async function autoSignIn(password) {
   const client = getClient();
-  if (!client) return false;
+  if (!client) { console.error('[sync] autoSignIn: no client'); return false; }
   try {
     const { data: { session } } = await client.auth.getSession();
     if (session) {
+      console.log('[sync] Existing session found');
       updateSyncStatus('Connected');
       syncNow();
       return true;
     }
+    console.log('[sync] Signing in as:', SUPABASE_EMAIL);
     const { error } = await client.auth.signInWithPassword({ email: SUPABASE_EMAIL, password });
     if (error) {
-      console.warn('[sync] Sign-in failed:', error.message);
+      console.error('[sync] Sign-in failed:', error.message);
       updateSyncStatus('Sign in failed');
       return false;
     }
+    console.log('[sync] Sign-in successful');
     updateSyncStatus('Connected');
     syncNow();
     return true;
   } catch (e) {
-    console.warn('[sync] Sign-in error:', e);
+    console.error('[sync] Sign-in exception:', e);
     updateSyncStatus('Error');
     return false;
   }
