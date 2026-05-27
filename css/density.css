@@ -1,0 +1,33 @@
+body.density-compact {
+  --density-pad-y: 4px;
+  --density-pad-x: 8px;
+  --density-gap: 6px;
+  --density-row-h: 28px;
+  --density-font: 12px;
+}
+
+body.density-relaxed {
+  --density-pad-y: 12px;
+  --density-pad-x: 18px;
+  --density-gap: 14px;
+  --density-row-h: 42px;
+  --density-font: 14px;
+}
+
+body {
+  --density-pad-y: 8px;
+  --density-pad-x: 14px;
+  --density-gap: 10px;
+  --density-row-h: 34px;
+  --density-font: 13px;
+}
+
+.page-pad {
+  padding: var(--density-pad-y) var(--density-pad-x);
+}
+
+.settings-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px var(--density-pad-x);
+}

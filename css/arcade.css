@@ -1,0 +1,320 @@
+/* Arcade & Game Center */
+.arcade-header {
+  margin-bottom: 12px;
+}
+
+.arcade-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 12px;
+  color: var(--text2);
+}
+
+.arcade-chip span:last-child {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.arcade-back-btn {
+  text-align: left;
+}
+
+.arcade-end-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.arcade-burst {
+  position: absolute;
+  font-size: 48px;
+  animation: burstFloat 1s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes burstFloat {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-60px) scale(1.3); }
+}
+
+/* Game Center Grid */
+.game-center-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.game-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+.game-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+/* Minesweeper */
+.ms-board {
+  user-select: none;
+}
+
+.ms-cell {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: var(--bg4);
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition);
+}
+
+.ms-cell:hover {
+  background: var(--bg5);
+}
+
+.ms-cell.revealed {
+  background: var(--bg2);
+  cursor: default;
+}
+
+.ms-cell.mine {
+  background: var(--red);
+}
+
+.ms-cell.n1 { color: var(--blue); }
+.ms-cell.n2 { color: var(--green); }
+.ms-cell.n3 { color: var(--red); }
+.ms-cell.n4 { color: var(--purple); }
+.ms-cell.n5 { color: var(--orange); }
+.ms-cell.n6 { color: var(--teal); }
+.ms-cell.n7 { color: var(--text); }
+.ms-cell.n8 { color: var(--text3); }
+
+/* Timer Panel */
+#timer-panel {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 16px;
+  width: 220px;
+  z-index: 200;
+  display: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+#timer-panel.open {
+  display: block;
+  animation: fadeIn 0.15s ease;
+}
+
+.timer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.timer-header-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.timer-close {
+  background: none;
+  border: none;
+  color: var(--text3);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.timer-close:hover {
+  color: var(--text);
+}
+
+.timer-tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--bg3);
+  border-radius: var(--radius);
+  padding: 2px;
+  margin-bottom: 12px;
+}
+
+.timer-tab {
+  flex: 1;
+  padding: 4px 6px;
+  border: none;
+  background: none;
+  color: var(--text3);
+  font-size: 10px;
+  font-family: var(--font-ui);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.timer-tab.active {
+  background: var(--bg5);
+  color: var(--text);
+}
+
+.timer-label {
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.timer-display {
+  font-size: 36px;
+  font-family: var(--font-mono);
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.timer-presets {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.timer-btn {
+  padding: 6px 16px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  background: none;
+  color: var(--text2);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.timer-btn:hover {
+  background: var(--bg3);
+}
+
+.timer-btn.primary {
+  background: var(--accent);
+  color: #0c0c0c;
+  border-color: var(--accent);
+}
+
+.timer-btn.primary:hover {
+  background: var(--accent2);
+}
+
+.timer-cycles {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 8px;
+}
+
+
+/* 2048 */
+.g2048-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  background: var(--bg4);
+  border-radius: var(--radius);
+  padding: 8px;
+  margin: 0 auto;
+  max-width: 320px;
+}
+
+.g2048-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  border-radius: 4px;
+  background: var(--bg3);
+  color: var(--text);
+  transition: background 0.1s;
+}
+
+.g2048-v2 { background: #2a3028; color: var(--text); }
+.g2048-v4 { background: #2e3a2a; color: var(--text); }
+.g2048-v8 { background: #3a4430; color: var(--accent); }
+.g2048-v16 { background: #445030; color: var(--accent); }
+.g2048-v32 { background: #506030; color: var(--accent2); }
+.g2048-v64 { background: #607020; color: var(--accent2); }
+.g2048-v128 { background: #708020; color: #fff; font-size: 18px; }
+.g2048-v256 { background: #809010; color: #fff; font-size: 18px; }
+.g2048-v512 { background: #90a000; color: #fff; font-size: 18px; }
+.g2048-v1024 { background: #a0b000; color: #fff; font-size: 16px; }
+.g2048-v2048 { background: #c0d000; color: #000; font-size: 16px; }
+
+/* Memory Match */
+.memory-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.memory-card {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  user-select: none;
+}
+
+.memory-card:hover:not(.flipped) {
+  background: var(--bg5);
+  transform: scale(1.05);
+}
+
+.memory-card.flipped {
+  background: var(--bg3);
+  border-color: var(--accent);
+  cursor: default;
+}
